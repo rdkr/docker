@@ -1,0 +1,63 @@
+web-import:
+  build: 'web-import'
+  links:
+    - web-mariadb
+  volumes_from:
+    - web-data
+
+web-data:
+  image: 'debian:jessie'
+  volumes:
+    - /var/www
+    - /etc/nginx/common
+    - /etc/nginx/conf.d
+    - /var/lib/mysql
+
+web-hhvm:
+  image: 'diegomarangoni/hhvm:fastcgi'
+  volumes_from:
+    - web-data
+  links:
+    - web-mariadb
+
+web-nginx:
+  build: 'web-nginx'
+  volumes_from:
+    - web-data  
+  links:
+    - web-hhvm
+  ports:
+    - '80:80'
+
+web-mariadb:
+  image: 'mariadb'
+  volumes_from:
+    - web-data
+  environment:
+    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+# web-nginx:
+#   image: 'rdkr/web-nginx'
+#   volumes_from:
+#     - web-data  
+#   links:
+#     - web-hhvm
+#   ports:
+#     - '80:80'
+
+
+
+# web-mariadb:
+#   image: 'rdkr/web-mariadb'
+#   environment:
+#     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+
+# docker exec -i docker_mariadb_1 mysql -u root < www-data/db.sql
+
+
+#znc:
+#  image: 'rdkr/znc'
+#  volumes_from:
+#    - data
+#  ports:
+#    - '6697:6697'
