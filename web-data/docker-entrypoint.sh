@@ -1,10 +1,11 @@
 #!/bin/sh
+
 set -e
 
 if [ "$1" = 'import' ]; then
 
 	# untar data to root. tar structure reflects docker volume paths
-	tar -C / -xvf /tmp/data/data.tar.gz
+	tar -C / -xvf /mnt/web-data.tar.gz
 
 	# make web files owned by www-data
 	chown -R www-data /var/www
@@ -16,17 +17,20 @@ if [ "$1" = 'import' ]; then
 	done
 
 	# import database dump and flush priviliges
-	mysql -h web-mariadb < /tmp/db/db.sql
+	mysql -h web-mariadb < /tmp/db.sql
 	mysql -h web-mariadb -e 'FLUSH PRIVILEGES;'
 
 	# remove import data to save space
-	rm -r /tmp/db
-	rm data.tar.gz
+	rm /tmp/db.sql
 
 elif [  "$1" = 'export' ]; then
 
-	echo "run export"
+	mysqldump -h web-mariadb -u root --single-transaction --all-databases > /tmp/db.sql
 
-	# tar -C / -
+	tar -C / -zcvf /mnt/web-data.tar.gz \
+		/var/www \
+		/tmp/db.sql \
+		/etc/nginx/common \
+		/etc/nginx/conf.d
 
 fi

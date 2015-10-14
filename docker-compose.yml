@@ -3,7 +3,7 @@ web-data:
   volumes_from:
     - web-volumes
   volumes:
-    - './data:/tmp/data'
+    - './mnt:/mnt'
   links:
     - web-mariadb
 
@@ -11,7 +11,6 @@ web-volumes:
   image: 'debian:jessie'
   volumes:
     - /var/www
-    - /tmp/db
     - /etc/nginx/common
     - /etc/nginx/conf.d
     - /var/lib/mysql
