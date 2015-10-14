@@ -1,11 +1,13 @@
-web-import:
-  build: 'web-import'
+web-data:
+  build: 'web-data'
   volumes_from:
-    - web-data
+    - web-volumes
+  volumes:
+    - './data:/tmp/data'
   links:
     - web-mariadb
 
-web-data:
+web-volumes:
   image: 'debian:jessie'
   volumes:
     - /var/www
@@ -17,14 +19,14 @@ web-data:
 web-hhvm:
   image: 'diegomarangoni/hhvm:fastcgi'
   volumes_from:
-    - web-data
+    - web-volumes
   links:
     - web-mariadb
 
 web-nginx:
   build: 'web-nginx'
   volumes_from:
-    - web-data  
+    - web-volumes  
   links:
     - web-hhvm
   ports:
@@ -33,6 +35,6 @@ web-nginx:
 web-mariadb:
   image: 'mariadb'
   volumes_from:
-    - web-data
+    - web-volumes
   environment:
     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
