@@ -18,8 +18,8 @@ chown -R nginx:nginx /var/www
 find /var/www -type d -exec chmod 755 {} \;
 find /var/www -type f -exec chmod 644 {} \;
 find /var/www -name "wp-config.php" -exec chmod 660 {} \;
-find /var/www -name "wp-content" -exec chmod 775 {} \;
-find /var/www -name "wp-content" -exec chmod -R 664 {} \;
+for i in $(find /var/www -name "wp-content" -type d); do find $i -type d -exec chmod 775 {} \;; done
+for i in $(find /var/www -name "wp-content" -type d); do find $i -type f -exec chmod 664 {} \;; done
 
 # start nginx
 nginx -g "daemon off;"
