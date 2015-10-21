@@ -1,3 +1,11 @@
+web-volumes:
+  image: 'debian:jessie'
+  volumes:
+    - /var/www
+    - /etc/nginx/common
+    - /etc/nginx/conf.d
+    - /var/lib/mysql
+
 web-data:
   build: 'web-data'
   volumes_from:
@@ -7,20 +15,13 @@ web-data:
   links:
     - web-mariadb
 
-web-volumes:
-  image: 'debian:jessie'
-  volumes:
-    - /var/www
-    - /etc/nginx/common
-    - /etc/nginx/conf.d
-    - /var/lib/mysql
-
 web-hhvm:
-  image: 'diegomarangoni/hhvm:fastcgi'
+  build: 'web-hhvm'
   volumes_from:
     - web-volumes
   links:
     - web-mariadb
+  restart: always
 
 web-nginx:
   build: 'web-nginx'
@@ -30,6 +31,7 @@ web-nginx:
     - web-hhvm
   ports:
     - '80:80'
+  restart: always
 
 web-mariadb:
   image: 'mariadb'
@@ -37,3 +39,4 @@ web-mariadb:
     - web-volumes
   environment:
     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  restart: always
