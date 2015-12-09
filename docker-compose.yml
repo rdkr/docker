@@ -42,7 +42,7 @@ web-mariadb:
     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
   restart: always
 
-web-letsencrypt-renew:
+web-letsencrypt:
   build: 'web-letsencrypt'
   volumes_from:
     - web-volumes
@@ -68,4 +68,16 @@ teamspeak:
    - "10011:10011"
   volumes_from:
    - teamspeak-volumes
+  restart: always
+
+znc-volumes:
+  image: 'debian:jessie'
+  volumes:
+    - /znc-data
+znc:
+  image: 'jimeh/znc'
+  ports:
+    - '6667:6667'
+  volumes_from:
+    - znc-volumes
   restart: always
