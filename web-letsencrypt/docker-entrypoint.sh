@@ -4,4 +4,4 @@ set -e
 
 mkdir -p /etc/letsencrypt/webroot
 
-letsencrypt certonly -c /cli-standalone.ini
+letsencrypt certonly -c /cli.ini
