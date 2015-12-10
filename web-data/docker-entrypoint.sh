@@ -5,11 +5,8 @@ set -e
 if [ "$1" = 'import' ]; then
 
 	# untar data to root. tar structure reflects docker volume paths
-	tar -C / -xvf /mnt/web-data.tar.gz
+	tar -C / -xvf /mnt/data.tar.gz
 
-	# notify nginx container that files are imported
-	touch /var/www/files-imported
-	
 	# wait for mariadb container to be ready for import
 	while ! mysqladmin ping -h web-mariadb --silent; do
 	    sleep 1s
@@ -28,6 +25,8 @@ elif [  "$1" = 'export' ]; then
 
 	tar -C / -zcvf /mnt/web-data.tar.gz \
 		/var/www \
-		/tmp/db.sql
+		/tmp/db.sql \
+		/znc-data \
+		/teamspeak3
 
 fi
