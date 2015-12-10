@@ -4,4 +4,3 @@ COPY cli.ini /
 
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["webroot"]

@@ -46,6 +46,7 @@ web-letsencrypt:
   build: 'web-letsencrypt'
   volumes_from:
     - web-volumes
+  command: webroot
 
 web-letsencrypt-setup:
   build: 'web-letsencrypt'
@@ -54,6 +55,7 @@ web-letsencrypt-setup:
   ports:
     - '80:80'
     - '443:443'
+  command: standalone
 
 teamspeak-volumes:
   image: 'debian:jessie'
