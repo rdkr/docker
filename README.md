@@ -1,6 +1,7 @@
 # docker
 ## TODO
 - letsencrypt: cron renewal
+- nginx: hsts
 - nginx: security config
 ```
 # http://tautt.com/best-nginx-configuration-for-security/
