@@ -2,6 +2,13 @@
 
 set -e
 
-mkdir -p /etc/letsencrypt/webroot
+if [ "$1" = 'standalone' ]; then
+    
+    mkdir -p /etc/letsencrypt/webroot
 
-letsencrypt certonly -c /cli.ini
+    letsencrypt certonly -c /cli.ini -a standalone
+
+elif [ "$1" = 'webroot' ]; then
+
+    letsencrypt certonly -c /cli.ini -a webroot
+fi
