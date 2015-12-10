@@ -2,9 +2,9 @@ web-volumes:
   image: 'debian:jessie'
   volumes:
     - /var/www
-    - /etc/nginx/common
-    - /etc/nginx/conf.d
     - /var/lib/mysql
+    - /var/lib/letsencrypt
+    - /etc/letsencrypt
 
 web-data:
   build: 'web-data'
@@ -31,6 +31,7 @@ web-nginx:
     - web-hhvm
   ports:
     - '80:80'
+    - '443:443'
   restart: always
 
 web-mariadb:
@@ -39,4 +40,46 @@ web-mariadb:
     - web-volumes
   environment:
     - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  restart: always
+
+web-letsencrypt:
+  build: 'web-letsencrypt'
+  volumes_from:
+    - web-volumes
+  command: webroot
+
+web-letsencrypt-setup:
+  build: 'web-letsencrypt'
+  volumes_from:
+    - web-volumes
+  ports:
+    - '80:80'
+    - '443:443'
+  command: standalone
+
+teamspeak-volumes:
+  image: 'debian:jessie'
+  volumes:
+    - /teamspeak3
+
+teamspeak:
+  image: 'luzifer/teamspeak3'
+  ports:
+   - "9987:9987/udp"
+   - "30033:30033"
+   - "10011:10011"
+  volumes_from:
+   - teamspeak-volumes
+  restart: always
+
+znc-volumes:
+  image: 'debian:jessie'
+  volumes:
+    - /znc-data
+znc:
+  image: 'jimeh/znc'
+  ports:
+    - '6667:6667'
+  volumes_from:
+    - znc-volumes
   restart: always

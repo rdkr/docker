@@ -28,8 +28,6 @@ elif [  "$1" = 'export' ]; then
 
 	tar -C / -zcvf /mnt/web-data.tar.gz \
 		/var/www \
-		/tmp/db.sql \
-		/etc/nginx/common \
-		/etc/nginx/conf.d
+		/tmp/db.sql
 
 fi
