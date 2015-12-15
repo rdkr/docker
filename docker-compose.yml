@@ -9,7 +9,7 @@ data-volumes:
     - /teamspeak3
 
 data:
-  build: 'web-data'
+  build: 'data'
   volumes_from:
     - data-volumes
   volumes:
