@@ -2,6 +2,9 @@
 
 set -e
 
+# check nginx config is good before proceeding
+nginx -t
+
 # generate dhparam.pem for ssl
 openssl dhparam -out /etc/nginx/common/dhparam.pem 2048
 
