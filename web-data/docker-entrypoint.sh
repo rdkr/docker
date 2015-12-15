@@ -23,7 +23,7 @@ elif [  "$1" = 'export' ]; then
 
 	mysqldump -h web-mariadb -u root --single-transaction --all-databases > /tmp/db.sql
 
-	tar -C / -zcvf /mnt/web-data.tar.gz \
+	tar -C / -zcvf /mnt/data.tar.gz \
 		/var/www \
 		/tmp/db.sql \
 		/znc-data \
