@@ -3,11 +3,10 @@
 set -e
 
 # check nginx config is good before proceeding
-touch /etc/nginx/common/dhparam.pem
 nginx -t
-rm -f /etc/nginx/common/dhparam.pem
 
-# generate dhparam.pem for ssl
+# generate new dhparam.pem for ssl
+rm -f /etc/nginx/common/dhparam.pem
 openssl dhparam -out /etc/nginx/common/dhparam.pem 2048
 
 # make web files owned by nginx
