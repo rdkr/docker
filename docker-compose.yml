@@ -17,6 +17,15 @@ data:
   links:
     - web-mariadb
 
+backup:
+  build: 'backup'
+  volumes_from:
+    - data-volumes
+  volumes:
+    - './mnt:/mnt'
+  links:
+    - web-mariadb
+
 web-hhvm:
   build: 'web-hhvm'
   volumes_from:
