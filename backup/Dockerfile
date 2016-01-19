@@ -1,6 +1,6 @@
-FROM ubuntu:14.04
+FROM phusion/baseimage
 
-# install duplicity
+# install mysql-client & duplicity
 RUN apt-get update && apt-get install -y \
 		mysql-client \
         duplicity \
@@ -8,10 +8,12 @@ RUN apt-get update && apt-get install -y \
 	&& rm -rf /var/lib/apt/lists/*
 
 # add crontab file in the cron directory
-ADD backup.crontab /etc/cron.d/
+ADD backup.cron /etc/cron.d/backup
+RUN chmod 644 /etc/cron.d/backup
 
 # add backup script
 ADD backup.sh /
+RUN chmod +x /backup.sh
 
 # Run the command on container startup
-CMD cron -f
+CMD ["/sbin/my_init"]

@@ -1,4 +1,0 @@
-* * * * * root /backup.sh full >> /var/log/cron.log 2>&1
-0 0 * * 1-6 root /backup.sh incremental >> /var/log/cron.log 2>&1
-0 0 * * 7 root /backup.sh full >> /var/log/cron.log 2>&1
-#
