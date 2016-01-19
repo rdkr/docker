@@ -1,6 +1,7 @@
 data-volumes:
   image: 'debian:jessie'
   volumes:
+    - ./mnt:/mnt
     - /var/www
     - /var/lib/mysql
     - /var/lib/letsencrypt
@@ -8,21 +9,17 @@ data-volumes:
     - /znc-data
     - /teamspeak3
 
-data:
-  build: 'data'
+data-backup:
+  build: 'data-backup'
   volumes_from:
     - data-volumes
-  volumes:
-    - './mnt:/mnt'
   links:
     - web-mariadb
 
-backup:
-  build: 'backup'
+data-restore:
+  build: 'data-restore'
   volumes_from:
     - data-volumes
-  volumes:
-    - './mnt:/mnt'
   links:
     - web-mariadb
 

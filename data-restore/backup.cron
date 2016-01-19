@@ -1,0 +1,3 @@
+0 0 * * 1-6 root /backup.sh incremental
+0 0 * * 7 root /backup.sh full
+#
