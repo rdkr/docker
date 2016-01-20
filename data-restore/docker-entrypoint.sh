@@ -4,6 +4,7 @@ set -e
 
 # restore files
 duplicity restore --no-encryption --allow-source-mismatch file:///mnt/www /var/www
+duplicity restore --no-encryption --allow-source-mismatch file:///mnt/letsencrypt /etc/letsencrypt
 duplicity restore --no-encryption --allow-source-mismatch file:///mnt/znc-data /znc-data
 duplicity restore --no-encryption --allow-source-mismatch file:///mnt/teamspeak3 /teamspeak3
 
