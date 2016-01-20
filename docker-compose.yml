@@ -1,12 +1,3 @@
-new-server:
-  image: 'debian:jessie'
-  links:
-    - data-restore
-    - data-backup
-    - web-nginx
-    - teamspeak
-    - znc
-
 data-volumes:
   image: 'debian:jessie'
   volumes:
@@ -24,7 +15,7 @@ data-backup:
     - data-volumes
   links:
     - web-mariadb
-  restart: always
+ restart: always
 
 data-restore:
   build: 'data-restore'
