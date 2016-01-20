@@ -1,7 +1,6 @@
 # docker
 ## TODO
-- letsencrypt: cron renewal
-- nginx: hsts
+- letsencrypt: cron renewal - part of backup?
 - nginx: security config
 ```
 # http://tautt.com/best-nginx-configuration-for-security/
