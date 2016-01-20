@@ -15,6 +15,7 @@ data-backup:
     - data-volumes
   links:
     - web-mariadb
+ restart: always
 
 data-restore:
   build: 'data-restore'
