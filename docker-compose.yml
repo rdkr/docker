@@ -1,85 +1,78 @@
-data-volumes:
-  image: 'debian:jessie'
-  volumes:
-    - ./mnt:/mnt
-    - /var/www
-    - /var/lib/mysql
-    - /var/lib/letsencrypt
-    - /etc/letsencrypt
-    - /znc-data
-    - /teamspeak3
-
-data-backup:
-  build: 'data-backup'
-  volumes_from:
-    - data-volumes
-  links:
-    - web-mariadb
-  restart: always
-
-data-restore:
-  build: 'data-restore'
-  volumes_from:
-    - data-volumes
-  links:
-    - web-mariadb
-
-web-hhvm:
-  build: 'web-hhvm'
-  volumes_from:
-    - data-volumes
-  links:
-    - web-mariadb
-  restart: always
-
-web-nginx:
-  build: 'web-nginx'
-  volumes_from:
-    - data-volumes  
-  links:
-    - web-hhvm
-  ports:
-    - '80:80'
-    - '443:443'
-  restart: always
-
-web-mariadb:
-  image: 'mariadb'
-  volumes_from:
-    - data-volumes
-  environment:
-    - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-  restart: always
-
-web-letsencrypt:
-  build: 'web-letsencrypt'
-  volumes_from:
-    - data-volumes
-  command: webroot
-
-web-letsencrypt-setup:
-  build: 'web-letsencrypt'
-  volumes_from:
-    - data-volumes
-  ports:
-    - '80:80'
-    - '443:443'
-  command: standalone
-
-teamspeak:
-  image: 'luzifer/teamspeak3'
-  ports:
-   - "9987:9987/udp"
-   - "30033:30033"
-   - "10011:10011"
-  volumes_from:
-   - data-volumes
-  restart: always
-
-znc:
-  image: 'jimeh/znc'
-  ports:
-    - '6667:6667'
-  volumes_from:
-    - data-volumes
-  restart: always
+version: '2'
+services:
+  data-volumes:
+    image: 'debian:jessie'
+    volumes:
+      - ./mnt:/mnt
+      - /var/www
+      - /var/lib/mysql
+      - /var/lib/letsencrypt
+      - /etc/letsencrypt
+      - /znc-data
+      - /teamspeak3
+  data-backup:
+    build: 'data-backup'
+    volumes_from:
+      - data-volumes
+    links:
+      - web-mariadb
+    restart: always
+  data-restore:
+    build: 'data-restore'
+    volumes_from:
+      - data-volumes
+    links:
+      - web-mariadb
+  web-hhvm:
+    build: 'web-hhvm'
+    volumes_from:
+      - data-volumes
+    links:
+      - web-mariadb
+    restart: always
+  web-nginx:
+    build: 'web-nginx'
+    volumes_from:
+      - data-volumes  
+    links:
+      - web-hhvm
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+  web-mariadb:
+    image: 'mariadb'
+    volumes_from:
+      - data-volumes
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    restart: always
+  web-letsencrypt:
+    build: 'web-letsencrypt'
+    volumes_from:
+      - data-volumes
+    command: webroot
+  web-letsencrypt-setup:
+    build: 'web-letsencrypt'
+    volumes_from:
+      - data-volumes
+    ports:
+      - '80:80'
+      - '443:443'
+    command: standalone
+  teamspeak:
+    image: 'luzifer/teamspeak3'
+    ports:
+     - "9987:9987/udp"
+     - "30033:30033"
+     - "10011:10011"
+    volumes_from:
+     - data-volumes
+    restart: always
+  znc:
+    image: 'jimeh/znc'
+    ports:
+      - '6667:6667'
+    volumes_from:
+      - data-volumes
+    restart: always
