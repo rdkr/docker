@@ -14,28 +14,20 @@ services:
     build: 'data-backup'
     volumes_from:
       - data-volumes
-    links:
-      - web-mariadb
     restart: always
   data-restore:
     build: 'data-restore'
     volumes_from:
       - data-volumes
-    links:
-      - web-mariadb
   web-hhvm:
     build: 'web-hhvm'
     volumes_from:
       - data-volumes
-    links:
-      - web-mariadb
     restart: always
   web-nginx:
     build: 'web-nginx'
     volumes_from:
-      - data-volumes  
-    links:
-      - web-hhvm
+      - data-volumes
     ports:
       - '80:80'
       - '443:443'
