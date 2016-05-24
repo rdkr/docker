@@ -11,4 +11,8 @@ duplicity $1 --no-encryption --allow-source-mismatch /etc/letsencrypt file:///mn
 duplicity $1 --no-encryption --allow-source-mismatch /znc-data file:///mnt/znc-data
 duplicity $1 --no-encryption --allow-source-mismatch /teamspeak3 file:///mnt/teamspeak3
 
+for i in $(ls /mnt); do
+    duplicity remove-older-than --force 2M file:///mnt/$i/; 
+done
+
 rm /var/www/db.sql
