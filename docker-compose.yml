@@ -43,7 +43,7 @@ services:
     image: 'rdkr/steam-common-game-finder'
     restart: always
     environment:
-      - STEAM_WEB_API_KEY="<api key>"
+      - STEAM_WEB_API_KEY=<api key - no quotes>
   web-letsencrypt:
     build: 'web-letsencrypt'
     volumes_from:
