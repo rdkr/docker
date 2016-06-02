@@ -39,6 +39,11 @@ services:
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     restart: always
+  web-scgf:
+    image: 'rdkr/steam-common-game-finder'
+    restart: always
+    environment:
+      - STEAM_WEB_API_KEY="<api key>"
   web-letsencrypt:
     build: 'web-letsencrypt'
     volumes_from:
