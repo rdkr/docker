@@ -1,18 +1,11 @@
 #!/bin/sh
 
 set -e
-
-if [ "$1" != 'incremental' ] && [ "$1" != 'full' ]; then exit; fi
  
 mysqldump -h web-mariadb -u root --single-transaction --all-databases > /var/www/db.sql
 
-duplicity $1 --no-encryption --allow-source-mismatch /var/www file:///mnt/www
-duplicity $1 --no-encryption --allow-source-mismatch /etc/letsencrypt file:///mnt/letsencrypt
-duplicity $1 --no-encryption --allow-source-mismatch /znc-data file:///mnt/znc-data
-duplicity $1 --no-encryption --allow-source-mismatch /teamspeak3 file:///mnt/teamspeak3
-
-for i in $(ls /mnt); do
-    duplicity remove-older-than --force 2M file:///mnt/$i/; 
-done
+duplicity --no-encryption --full-if-older-than 1M --s3-use-new-style /var/www s3://s3.amazonaws.com/rdkr-web
+duplicity --no-encryption --full-if-older-than 1M --s3-use-new-style /etc/letsencrypt s3://s3.amazonaws.com/rdkr-le
+duplicity --no-encryption --full-if-older-than 1M --s3-use-new-style /teamspeak3 s3://s3.amazonaws.com/rdkr-ts3
 
 rm /var/www/db.sql
