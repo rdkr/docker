@@ -4,7 +4,7 @@ FROM phusion/baseimage
 RUN apt-get update && apt-get install -y \
 		mysql-client \
         duplicity \
-        python-bobo \
+        python-boto \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 
