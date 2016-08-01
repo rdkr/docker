@@ -9,8 +9,8 @@ for i in \
 	"/etc/letsencrypt s3://s3.amazonaws.com/rdkr-le" \
 	"/teamspeak3 s3://s3.amazonaws.com/rdkr-ts3" ; do
 		
-  duplicity --encrypt-key="F7887127" \
-    		--sign-key="F7887127" \
+  duplicity --encrypt-key F7887127 \
+    		--gpg-options "--trust-model always" \
     		--full-if-older-than 1M \
     		--s3-use-multiprocessing \
     		--s3-use-new-style $i
